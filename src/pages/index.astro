@@ -1,6 +1,7 @@
 ---
 import ThreeScene from '../components/ThreeScene.vue';
 import LanguagePicker from '../components/LanguagePicker.astro';
+import CreatorEntrance from '../components/CreatorEntrance.vue';
 import '../styles/global.css';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
@@ -22,6 +23,7 @@ const t = useTranslations(lang);
 	<body>
 		<ThreeScene client:only="vue" />
 		<LanguagePicker />
+        <CreatorEntrance client:only="vue" lang={lang} />
 
         <main class="overlay">
             <div class="scroll-indicator">
@@ -62,13 +64,7 @@ const t = useTranslations(lang);
                         <p>{t('stage3.desc')}</p>
                     </div>
                     
-                    <div class="card action">
-                        <h3>{t('cta.join')}</h3>
-                        <div class="links">
-                            <a href="https://github.com/AtsushiHarimoto/Moyin" target="_blank" class="btn pulse">{t('nav.github')}</a>
-                            <a href="/blog" class="btn secondary">{t('nav.blog')}</a>
-                        </div>
-                    </div>
+
                 </div>
                 
                 <footer class="footer">
@@ -93,7 +89,7 @@ body {
     position: relative;
     z-index: 10;
     pointer-events: none;
-    background: transparent;
+    background: radial-gradient(circle, rgba(0,0,0,0) 0%, #050505 80%);
 }
 
 .screen {
@@ -120,6 +116,12 @@ body {
     opacity: 0.6;
     transition: opacity 0.5s;
     z-index: 100;
+    animation: floating 2s ease-in-out infinite;
+}
+
+@keyframes floating {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, -5px); }
 }
 .scroll-indicator span {
     font-size: 0.7rem;
@@ -195,20 +197,26 @@ h1 {
 .card {
     background: rgba(20, 20, 30, 0.4);
     backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 2.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 3rem;
     border-radius: 16px;
     max-width: 320px;
+    text-align: center;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .card.wide {
     max-width: 500px;
-    border-color: rgba(0, 255, 255, 0.2);
+    border-top-color: rgba(0, 255, 255, 0.4);
+    border-left-color: rgba(0, 255, 255, 0.4);
 }
 
 .card.highlight {
-    border-color: rgba(255, 0, 255, 0.3);
+    border-top-color: rgba(255, 0, 255, 0.5);
+    border-left-color: rgba(255, 0, 255, 0.5);
     box-shadow: 0 0 30px rgba(255, 0, 255, 0.1);
 }
 
@@ -230,7 +238,7 @@ h1 {
 .card p {
     font-size: 0.95rem;
     line-height: 1.8;
-    color: #ccc;
+    color: #e5e7eb;
 }
 
 .links {
@@ -248,14 +256,44 @@ h1 {
     font-weight: bold;
     font-family: 'Orbitron', sans-serif;
     font-size: 0.85rem;
-    transition: all 0.3s;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:hover {
+    transform: scale(1.05);
 }
 
 .btn:not(.secondary) {
     background: linear-gradient(45deg, #ff0055, #ff00ff);
     color: white;
     box-shadow: 0 4px 15px rgba(255, 0, 85, 0.3);
+}
+
+.btn:not(.secondary)::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -150%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to right,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+    );
+    transform: rotate(30deg);
+    animation: neon-sweep 3s infinite linear;
+    pointer-events: none;
+}
+
+@keyframes neon-sweep {
+    0% { left: -150%; }
+    20% { left: 100%; }
+    100% { left: 100%; }
 }
 
 .btn.pulse {

@@ -52,11 +52,12 @@ const vertexShader = `
     // Phase transition: Push particles away as phase increases
     pos *= 1.0 + phase * 3.0;
 
-    // Mouse Influence (Repulsion)
-    float dist = distance(pos.xy, mouse * 20.0);
-    if (dist < 5.0) {
-      vec2 dir = normalize(pos.xy - mouse * 20.0);
-      pos.xy += dir * (5.0 - dist) * 0.5;
+    // Mouse Influence (Repulsion) - "Mouse Avoidance" mode
+    float dist = distance(pos.xy, mouse * 15.0);
+    if (dist < 8.0) {
+      vec2 dir = normalize(pos.xy - mouse * 15.0);
+      float force = pow(1.0 - dist / 8.0, 2.0);
+      pos.xy += dir * force * 1.5;
     }
 
     vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
@@ -371,7 +372,7 @@ const animate = () => {
     const stage3Trigger = Math.max(0, (phase - 0.6) * 2.5);
     
     // Update core
-    (crystalCore.material as THREE.MeshMaterial).opacity = stage3Trigger;
+    (crystalCore.material as THREE.MeshStandardMaterial).opacity = stage3Trigger;
     crystalCore.rotation.y = time * 0.2;
     
     // Update glow
@@ -382,7 +383,7 @@ const animate = () => {
     // Update fragments
     fragments.children.forEach((frag) => {
       if (frag instanceof THREE.Mesh) {
-        frag.material.opacity = stage3Trigger * 0.6;
+        (frag.material as THREE.Material).opacity = stage3Trigger * 0.6;
         frag.position.applyAxisAngle(frag.userData.axis, frag.userData.orbitSpeed);
         frag.rotation.x += 0.02;
         frag.rotation.y += 0.02;
@@ -391,7 +392,7 @@ const animate = () => {
 
     energyRings.children.forEach((ring, i) => {
       if (ring instanceof THREE.Mesh) {
-        ring.material.opacity = stage3Trigger * 0.6;
+        (ring.material as THREE.Material).opacity = stage3Trigger * 0.6;
         ring.rotation.x += 0.01 * (i + 1);
         ring.rotation.y += 0.015 * (i + 1);
         const ringScale = 1 + Math.sin(time * 2 + i) * 0.05;
