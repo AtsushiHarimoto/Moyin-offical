@@ -1,0 +1,152 @@
+:root {
+  /* =========================================
+     核心氛圍色 (Atmosphere)
+     背景、全域色調
+     ========================================= */
+
+  /* 全局背景色: 深紫灰 (替代純黑) */
+  --shell-bg: #13111b;
+  /* 側邊欄背景: 玻璃態深紫灰 */
+  --sidebar-bg: rgba(19, 17, 27, 0.85);
+
+  /* =========================================
+     HUD 材質 (Materials)
+     卡片、面板、邊框
+     ========================================= */
+
+  /* 卡片背景: 半透明深紫灰 (替代透明黑) */
+  --card-bg: rgba(19, 17, 27, 0.6);
+  /* 面板背景 */
+  --panel-bg: rgba(19, 17, 27, 0.8);
+  /* 面板深色背景 (用於輸入框等) */
+  --panel-deep: rgba(10, 9, 15, 0.5);
+
+  /* 邊框: 霓虹紫 20% */
+  --card-border: rgba(168, 85, 247, 0.2);
+  --sidebar-border: rgba(168, 85, 247, 0.15);
+
+  /* =========================================
+     文字顏色 (Typography)
+     ========================================= */
+
+  /* 主要文字: 淺亮紫 (替代純白) */
+  --text-primary: #e9d5ff; /* Purple 200 */
+  /* 對比文字: 更亮的淺紫/白 (用於高亮) */
+  --text-contrast: #f3e8ff; /* Purple 100 */
+  /* 標籤文字: 賽博青 (輔助色) */
+  --text-label: #06b6d4; /* Cyan 500 */
+  /* 次要/弱化文字: 灰紫 */
+  --text-muted: #a78bfa; /* Purple 400 (Muted) */
+
+  /* =========================================
+     互動元素 (Interactive)
+     按鈕、焦點、選中態
+     ========================================= */
+
+  /* 焦點邊框: 霓虹紫 */
+  --focus-border: #a855f7;
+  /* 焦點發光 */
+  --focus-glow: rgba(168, 85, 247, 0.4);
+  /* 導航懸停 */
+  --nav-hover: rgba(168, 85, 247, 0.15);
+  /* 導航選中 */
+  --nav-active: rgba(168, 85, 247, 0.25);
+  /* 危險操作 */
+  --danger: #ef4444;
+
+  /* =========================================
+     表單輸入 (Inputs)
+     ========================================= */
+
+  /* 滾動條 (Scrollbar) */
+  --scrollbar-track: var(--shell-bg); /* or darker like #0f1016 */
+  --scrollbar-thumb: var(--input-border); /* #4c1d95 */
+  --scrollbar-thumb-hover: #a855f7; /* Neon Purple */
+
+  /* 流光按鈕 (Beam Button) */
+  --beam-from: #ffaa40; /* Orange/Gold */
+  --beam-to: #9c40ff; /* Purple */
+
+  --input-bg: transparent;
+  --input-border: #4c1d95; /* Deep Purple 900 */
+
+  /* 按鈕 (Buttons) */
+  --btn-radius: 8px; /* 圓角半徑 */
+
+  /* =========================================
+     圖示 (Icons)
+     ========================================= */
+  --icon-bg: transparent;
+  --icon-border: transparent;
+
+  /* =========================================
+     字體大小 (Typography Sizes)
+     所有字號統一在此定義，方便調整
+     ========================================= */
+
+  /* 側邊欄 (Sidebar) */
+  --font-size-sidebar-brand: 48px; /* Logo */
+  --font-size-sidebar-group: 30px; /* 分組標題 */
+  --font-size-sidebar-item: 30px; /* 導航項目 (上次修改為22px) */
+
+  /* 表單 (Forms / Edit Page) */
+  --font-size-section-title: 48px; /* 章節大標題 */
+  --font-size-field-label: 44px; /* 欄位標籤 (large) */
+  --font-size-input: 32px; /* 輸入框文字 */
+
+  /* 彈窗 (Modals / WorkspaceModal) */
+  --font-size-modal-title: 38px; /* 彈窗標題 */
+  --font-size-modal-label: 32px; /* 彈窗標籤 */
+  --font-size-modal-input: 32px; /* 彈窗輸入框 */
+  --font-size-modal-text: 28px; /* 彈窗一般文字 */
+  --font-size-modal-btn: 28px; /* 彈窗按鈕 */
+
+  /* 登入頁 (Login) */
+  --font-size-login-title: 100px;
+  --font-size-login-btn: 1.25rem;
+
+  /* 通用 (Global) */
+  --font-size-base: 48px;
+  --font-size-h1: 44px;
+  --font-size-h2: 42px;
+  --font-size-small: 32px;
+}
+
+/* 為了兼容性保留 helper classes, 但核心變量如上 */
+.bg-shell {
+  background-color: var(--shell-bg);
+  background-image: linear-gradient(
+      rgba(168, 85, 247, 0.05) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(168, 85, 247, 0.05) 1px, transparent 1px),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(88, 28, 135, 0.15) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 20% 80%,
+      rgba(10, 10, 18, 1) 0%,
+      rgba(88, 28, 135, 0.1) 100%
+    );
+  background-size: 50px 50px, 50px 50px, 100% 100%, 100% 100%;
+  background-attachment: fixed;
+}
+
+.bg-sidebar {
+  background: var(--sidebar-bg);
+  backdrop-filter: blur(12px);
+}
+
+.border-divider {
+  border-color: var(--sidebar-border);
+}
+
+.text-primary-color {
+  color: var(--text-primary);
+}
+
+.text-contrast {
+  color: var(--text-contrast);
+}

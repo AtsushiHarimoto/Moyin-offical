@@ -1,0 +1,110 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	return posts.map((post) => ({
+		params: { slug: post.slug },
+		props: post,
+	}));
+}
+
+const post = Astro.props;
+const { Content } = await post.render();
+---
+
+<Layout title={post.data.title}>
+	<main class="max-w-3xl mx-auto p-8 w-full mt-8 fade-in">
+        <a href="/blog" class="text-[var(--text-label)] hover:text-white mb-8 inline-block transition-colors font-medium">← Back to Blog</a>
+        
+		<article class="prose max-w-none">
+            <header class="mb-12 border-b border-[var(--sidebar-border)] pb-8">
+    			<h1 class="text-[var(--font-size-h1)] text-[var(--text-primary)] mb-4 font-bold leading-tight">{post.data.title}</h1>
+                <div class="flex items-center gap-4 text-[var(--text-muted)]">
+                     <time class="font-mono text-sm">{post.data.pubDate.toLocaleDateString()}</time>
+                     {post.data.tags?.map(tag => (
+                        <span class="text-xs px-2 py-0.5 rounded-full border border-[var(--sidebar-border)] bg-[var(--sidebar-bg)]">{tag}</span>
+                     ))}
+                </div>
+            </header>
+            
+			<div class="markdown-body text-[var(--text-primary)] leading-relaxed">
+				<Content />
+			</div>
+		</article>
+	</main>
+</Layout>
+
+<style is:global>
+    /* Minimal Markdown Styles (Since we don't have Typography plugin yet) */
+    .markdown-body h1 {
+        font-size: var(--font-size-h1);
+        margin-top: 2em;
+        margin-bottom: 1em;
+        color: var(--text-contrast);
+    }
+    .markdown-body h2 {
+        font-size: var(--font-size-h2);
+        margin-top: 1.5em;
+        margin-bottom: 0.75em;
+        color: var(--text-contrast);
+        padding-bottom: 0.3em;
+        border-bottom: 1px solid var(--sidebar-border);
+    }
+    .markdown-body h3 {
+        font-size: var(--font-size-small);
+        margin-top: 1.5em;
+        margin-bottom: 0.5em;
+        color: var(--text-primary);
+    }
+    .markdown-body p {
+        margin-bottom: 1.25em;
+        font-size: 1.125rem;
+        color: var(--text-primary);
+        line-height: 1.8;
+    }
+    .markdown-body ul {
+        list-style-type: disc;
+        padding-left: 1.5em;
+        margin-bottom: 1.25em;
+    }
+    .markdown-body li {
+        margin-bottom: 0.5em;
+    }
+    .markdown-body blockquote {
+        border-left: 4px solid var(--focus-border);
+        padding-left: 1em;
+        margin-left: 0;
+        margin-right: 0;
+        font-style: italic;
+        color: var(--text-muted);
+        background: var(--sidebar-bg);
+        padding: 1em;
+        border-radius: 0 8px 8px 0;
+    }
+    .markdown-body strong {
+        color: var(--text-contrast);
+    }
+    
+    .fade-in {
+        animation: fadeIn 0.5s ease-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Utilities */
+    .max-w-3xl { max-width: 48rem; }
+    .mt-8 { margin-top: 2rem; }
+    .mb-8 { margin-bottom: 2rem; }
+    .mb-12 { margin-bottom: 3rem; }
+    .pb-8 { padding-bottom: 2rem; }
+    .inline-block { display: inline-block; }
+    .font-medium { font-weight: 500; }
+    .leading-tight { line-height: 1.25; }
+    .gap-4 { gap: 1rem; }
+    .rounded-full { border-radius: 9999px; }
+    .py-0\.5 { padding-top: 0.125rem; padding-bottom: 0.125rem; }
+</style>

@@ -1,0 +1,74 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<Layout title="Moyin Blog">
+	<main class="max-w-4xl mx-auto p-8 w-full mt-12">
+		<h1 class="text-[var(--font-size-h1)] mb-12 font-bold text-center">Latest Changes</h1>
+		<ul class="space-y-6 list-none p-0">
+			{posts.map((post) => (
+				<li class="border border-[var(--card-border)] bg-[var(--card-bg)] rounded-[var(--btn-radius)] p-8 hover:border-[var(--focus-border)] transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-lg shadow-purple-900/20 backdrop-blur-sm">
+					<a href={`/blog/${post.slug}`} class="block no-underline">
+						<h2 class="text-[var(--font-size-h2)] text-[var(--text-primary)] mb-3 mt-0">{post.data.title}</h2>
+						<p class="text-[var(--text-muted)] text-[var(--font-size-small)] mb-4">{post.data.description}</p>
+						<div class="flex gap-2">
+                            {post.data.tags?.map(tag => (
+                                <span class="text-xs font-bold px-2 py-1 rounded bg-[var(--sidebar-bg)] text-[var(--text-label)] uppercase tracking-wider border border-[var(--sidebar-border)]">
+                                    {tag}
+                                </span>
+                            ))}
+							<span class="text-xs font-mono ml-auto text-[var(--text-muted)] opacity-70 flex items-center">
+								{post.data.pubDate.toLocaleDateString()}
+							</span>
+						</div>
+					</a>
+				</li>
+			))}
+		</ul>
+        <div class="text-center mt-12">
+             <a href="/" class="text-[var(--text-muted)] hover:text-white transition-colors">← Back Home</a>
+        </div>
+	</main>
+</Layout>
+
+<style>
+/* Utilities fallback */
+.max-w-4xl { max-width: 56rem; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.w-full { width: 100%; }
+.p-8 { padding: 2rem; }
+.mt-12 { margin-top: 3rem; }
+.mb-12 { margin-bottom: 3rem; }
+.text-center { text-align: center; }
+.space-y-6 > * + * { margin-top: 1.5rem; }
+.list-none { list-style: none; }
+.border { border-width: 1px; border-style: solid; }
+.rounded { border-radius: 0.25rem; }
+.transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 300ms; }
+.duration-300 { transition-duration: 300ms; }
+.hover\:transform:hover { transform: var(--tw-transform); }
+.hover\:-translate-y-1:hover { --tw-translate-y: -0.25rem; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+.hover\:shadow-lg:hover { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+.block { display: block; }
+.no-underline { text-decoration: none; }
+.mb-3 { margin-bottom: 0.75rem; }
+.mt-0 { margin-top: 0; }
+.mb-4 { margin-bottom: 1rem; }
+.flex { display: flex; }
+.gap-2 { gap: 0.5rem; }
+.text-xs { font-size: 0.75rem; line-height: 1rem; }
+.font-bold { font-weight: 700; }
+.px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+.py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+.uppercase { text-transform: uppercase; }
+.tracking-wider { letter-spacing: 0.05em; }
+.ml-auto { margin-left: auto; }
+.font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+.opacity-70 { opacity: 0.7; }
+.items-center { align-items: center; }
+</style>

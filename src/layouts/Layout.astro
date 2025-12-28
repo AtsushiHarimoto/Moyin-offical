@@ -1,0 +1,38 @@
+---
+import '../styles/theme.css';
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Moyin Official Portal - Dream. Write. Publish." />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body class="bg-shell text-primary-color min-h-screen flex flex-col">
+		<slot />
+	</body>
+</html>
+
+<style is:global>
+	/* Global Reset */
+	html, body {
+		margin: 0;
+		padding: 0;
+		font-family: 'Inter', system-ui, sans-serif;
+	}
+	
+	/* Apply theme font sizes */
+	body {
+		font-size: 16px; /* Reset base size for readability, use vars for specific elements */
+	}
+</style>
